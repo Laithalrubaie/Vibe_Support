@@ -48,7 +48,7 @@ if prompt := st.chat_input("شلون أگدر أساعدك خالي؟"):
             try:
                 res = supabase.rpc("match_support", {
                     "query_embedding": vec, 
-                    "match_threshold": 0.4, 
+                    "match_threshold": 0.8, 
                     "match_count": 2
                 }).execute()
                 
