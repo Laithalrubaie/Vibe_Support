@@ -54,8 +54,13 @@ if prompt := st.chat_input("شلون أگدر أساعدك خالي؟"):
                     "match_count": 5
                 }).execute()
                 
-                context_list = [f"المشكلة: {r['category']}\nنوع الشكوى: {r['client_issue']}\nالحل: {r['solution_agent']}" 
-                                for r in res.data]
+            context_list = [
+                f"المشكلة: {r.get('category', 'غير محدد')}\n"
+                f"نوع الشكوى: {r.get('client_issue', r.get('issue', 'غير محدد'))}\n"
+                f"الحل: {r.get('solution_agent', 'غير محدد')}" 
+                for r in res.data
+            ]
+            for r in res.data]
                 
                 # Fallback to lower threshold if no results found
                 if not context_list:
