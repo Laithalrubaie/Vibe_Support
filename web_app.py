@@ -42,18 +42,28 @@ if prompt := st.chat_input("شلون أگدر أساعدك خالي؟"):
         st.markdown(prompt)
 
     with st.chat_message("assistant"):
-        vec = get_vector_fast(f"query: {prompt}")
+        vec = get_vector_fast(f"query: مشكلة طالب: {prompt} الحل:")
         
         if vec:
             try:
-                threshold_value = float(0.28)
+                threshold_value = float(0.20)
                 res = supabase.rpc("match_support", {
                     "query_embedding": vec, 
                     "match_threshold": threshold_value,
-                    "match_count": 3
+                    "match_count": 5
                 }).execute()
-                context_list = [f"المشكلة: {r['category']}\nالحل: {r['solution_agent']}" for r in res.data]
-                context_text = "\n---\n".join(context_list) if context_list else "لا توجد معلومات مسترجعة مطابقة."
+context_list = [
+    f"المشكلة: {r['category']}\nنوع الشكوى: {r['client_issue']}\nالحل: {r['solution_agent']}" 
+    for r in res.data
+]
+context_text = "\n---\n".join(context_list) if not context_list:
+    # جرب بثريشهولد أقل
+    res = supabase.rpc("match_support", {
+        "query_embedding": vec,
+        "match_threshold": 0.15,
+        "match_count": 3
+    }).execute()
+
             except Exception as e:
                 st.error(f"Supabase Error: {e}")
                 context_text = "لا توجد معلومات مسترجعة مطابقة بسبب خطأ في قاعدة البيانات."
