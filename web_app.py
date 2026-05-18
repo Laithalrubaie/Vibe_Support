@@ -47,13 +47,11 @@ if prompt := st.chat_input("شلون أگدر أساعدك خالي؟"):
         if vec:
             try:
                 threshold_value = float(0.28)
-
 				res = supabase.rpc("match_support", {
 				    "query_embedding": vec, 
 				    "match_threshold": threshold_value, # هنا التعديل
 				    "match_count": 3
 				}).execute()
-                
                 context_list = [f"المشكلة: {r['category']}\nالحل: {r['solution_agent']}" for r in res.data]
                 context_text = "\n---\n".join(context_list) if context_list else "لا توجد معلومات مسترجعة مطابقة."
             except Exception as e:
