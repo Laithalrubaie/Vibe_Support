@@ -56,12 +56,11 @@ if prompt := st.chat_input("شلون أگدر أساعدك خالي؟"):
                                 for r in res.data
                                ]
                 context_text = "\n---\n".join(context_list) if not context_list:
-    # جرب بثريشهولد أقل
-        res = supabase.rpc("match_support", {
-            "query_embedding": vec,
-            "match_threshold": 0.15,
-            "match_count": 3
-        }).execute()
+                res = supabase.rpc("match_support", {
+                "query_embedding": vec,
+                "match_threshold": 0.15,
+                "match_count": 3
+                }).execute()
 
 except Exception as e:
 st.error(f"Supabase Error: {e}")
