@@ -52,10 +52,9 @@ if prompt := st.chat_input("شلون أگدر أساعدك خالي؟"):
                     "match_threshold": threshold_value,
                     "match_count": 5
                 }).execute()
-context_list = [
-    f"المشكلة: {r['category']}\nنوع الشكوى: {r['client_issue']}\nالحل: {r['solution_agent']}" 
-    for r in res.data
-]
+                context_list = [f"المشكلة: {r['category']}\nنوع الشكوى: {r['client_issue']}\nالحل: {r['solution_agent']}" 
+                                for r in res.data
+                               ]
 context_text = "\n---\n".join(context_list) if not context_list:
     # جرب بثريشهولد أقل
     res = supabase.rpc("match_support", {
