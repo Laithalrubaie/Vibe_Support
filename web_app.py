@@ -57,6 +57,6 @@ if prompt := st.chat_input("شلون أگدر أساعدك خالي؟"):
         context = "\n".join([f"المشكلة: {r['category']}\nالحل: {r['solution_agent']}" for r in res.data])
         ai_prompt = f"أجب بلهجة عراقية بناءً على: {context}\nالسؤال: {prompt}"
         
-        full_response = client.models.generate_content(model="models/gemini-1.5-flash", contents=ai_prompt).text
+        full_response = client.models.generate_content(model="models/gemini-2.5-flash", contents=ai_prompt).text
         st.markdown(full_response)
         st.session_state.messages.append({"role": "assistant", "content": full_response})
