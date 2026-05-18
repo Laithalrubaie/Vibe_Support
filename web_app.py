@@ -46,11 +46,13 @@ if prompt := st.chat_input("شلون أگدر أساعدك خالي؟"):
         
         if vec:
             try:
-                res = supabase.rpc("match_support", {
-                    "query_embedding": vec, 
-                    "match_threshold": 2.8, 
-                    "match_count": 0.28
-                }).execute()
+                threshold_value = float(0.28)
+
+				res = supabase.rpc("match_support", {
+				    "query_embedding": vec, 
+				    "match_threshold": threshold_value, # هنا التعديل
+				    "match_count": 3
+				}).execute()
                 
                 context_list = [f"المشكلة: {r['category']}\nالحل: {r['solution_agent']}" for r in res.data]
                 context_text = "\n---\n".join(context_list) if context_list else "لا توجد معلومات مسترجعة مطابقة."
