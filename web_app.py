@@ -55,19 +55,19 @@ if prompt := st.chat_input("شلون أگدر أساعدك خالي؟"):
                 context_list = [f"المشكلة: {r['category']}\nنوع الشكوى: {r['client_issue']}\nالحل: {r['solution_agent']}" 
                                 for r in res.data
                                ]
-context_text = "\n---\n".join(context_list) if not context_list:
+                context_text = "\n---\n".join(context_list) if not context_list:
     # جرب بثريشهولد أقل
-    res = supabase.rpc("match_support", {
-        "query_embedding": vec,
-        "match_threshold": 0.15,
-        "match_count": 3
-    }).execute()
+        res = supabase.rpc("match_support", {
+            "query_embedding": vec,
+            "match_threshold": 0.15,
+            "match_count": 3
+        }).execute()
 
-            except Exception as e:
-                st.error(f"Supabase Error: {e}")
-                context_text = "لا توجد معلومات مسترجعة مطابقة بسبب خطأ في قاعدة البيانات."
-        else:
-            context_text = "لا توجد معلومات مسترجعة مطابقة."
+except Exception as e:
+st.error(f"Supabase Error: {e}")
+context_text = "لا توجد معلومات مسترجعة مطابقة بسبب خطأ في قاعدة البيانات."
+else:
+context_text = "لا توجد معلومات مسترجعة مطابقة."
 
         ai_prompt = f"""
 أنت مساعد خبير لموظفي الدعم الفني في منصة تعليمية عراقية. مهمتك هي إعطاء حلول دقيقة بناءً على "المعلومات المسترجعة" فقط.
