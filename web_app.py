@@ -91,7 +91,6 @@ ai_prompt = f"""
 يجب أن يكون الجواب للموظف نصًا مباشرًا، يتبع اللهجة العراقية المهذبة والعملية، ويتضمن الحل أو الاستفسار المطلوب حسب السياق.
 """
 
-# نرسل الـ Prompt الجديد لـ Gemini
 try:
     response = client.models.generate_content(
         model="models/gemini-2.5-flash", 
@@ -101,7 +100,6 @@ try:
     st.session_state.messages.append({"role": "assistant", "content": response.text})
 except Exception as e:
     st.error(f"حدث خطأ في استجابة الذكاء الاصطناعي: {e}")
-        
-        full_response = client.models.generate_content(model="models/gemini-2.5-flash", contents=ai_prompt).text
-        st.markdown(full_response)
-        st.session_state.messages.append({"role": "assistant", "content": full_response})
+    full_response = client.models.generate_content(model="models/gemini-2.5-flash", contents=ai_prompt).text
+    st.markdown(full_response)
+    st.session_state.messages.append({"role": "assistant", "content": full_response})
